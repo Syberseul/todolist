@@ -1,4 +1,6 @@
 import React from "react";
+//this import will provide functions to check props data type
+import PropTypes from "prop-types";
 
 class TodoItem extends React.Component {
   constructor(props) {
@@ -6,8 +8,12 @@ class TodoItem extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   render() {
-    const { item } = this.props;
-    return <div onClick={this.handleClick}>{item}</div>;
+    const { item, test } = this.props;
+    return (
+      <div onClick={this.handleClick}>
+        {test} - {item}
+      </div>
+    );
   }
 
   handleClick() {
@@ -15,6 +21,19 @@ class TodoItem extends React.Component {
     handleItemDelete(index);
   }
 }
+
+// this is the way to check props data type is what we desired
+// .isRequired is the way to force this data must be available / passed from parent
+TodoItem.propTypes = {
+  test: PropTypes.string.isRequired,
+  item: PropTypes.string.isRequired,
+  handleItemDelete: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+};
+
+TodoItem.defaultProps = {
+  test: "hello world",
+};
 
 export default TodoItem;
 
