@@ -1,6 +1,7 @@
 // {Fragment} can replace the outtest div tag, and in html rendered page, it will NOT show up
 import React, { Fragment } from "react";
 import TodoItem from "./TodoItem";
+
 import "./style.css";
 
 class TodoList extends React.Component {
@@ -28,37 +29,52 @@ class TodoList extends React.Component {
           />
           <button onClick={this.handleButtonClick}>Submit</button>
         </div>
-        <ul>
-          {this.state.list.map((item, index) => {
-            return (
-              <TodoItem
-                item={item}
-                index={index}
-                key={index}
-                handleItemDelete={this.handleItemDelete.bind(this)}
-              />
-            );
-          })}
-        </ul>
+        <ul>{this.getTodoItem()}</ul>
       </Fragment>
     );
   }
 
-  handleInputChange(event) {
-    this.setState({ inputValue: event.target.value });
-  }
-
-  handleButtonClick() {
-    this.setState({
-      inputValue: "",
-      list: [...this.state.list, this.state.inputValue],
+  getTodoItem() {
+    return this.state.list.map((item, index) => {
+      return (
+        <TodoItem
+          item={item}
+          index={index}
+          key={index}
+          handleItemDelete={this.handleItemDelete}
+        />
+      );
     });
   }
 
+  handleInputChange(event) {
+    const value = event.target.value;
+    this.setState(() => ({
+      inputValue: value,
+    }));
+    // this.setState({ inputValue: event.target.value });
+  }
+
+  handleButtonClick() {
+    this.setState((prevState) => ({
+      //prevState is the parameter that will automatically receive when call setState
+      // prevState = this.state
+      inputValue: "",
+      list: [...prevState.list, prevState.inputValue],
+    }));
+    // this.setState({
+    //   inputValue: "",
+    //   list: [...this.state.list, this.state.inputValue],
+    // });
+  }
+
   handleItemDelete(index) {
-    const list = [...this.state.list];
-    list.splice(index, 1);
-    this.setState({ list: list });
+    this.setState((prevState) => {
+      const list = [...prevState.list];
+      list.splice(index, 1);
+      return { list };
+    });
+    // this.setState({ list: list });
   }
 }
 

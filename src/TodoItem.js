@@ -6,11 +6,13 @@ class TodoItem extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   render() {
-    return <div onClick={this.handleClick}>{this.props.item}</div>;
+    const { item } = this.props;
+    return <div onClick={this.handleClick}>{item}</div>;
   }
 
   handleClick() {
-    this.props.handleItemDelete(this.props.index);
+    const { handleItemDelete, index } = this.props;
+    handleItemDelete(index);
   }
 }
 
