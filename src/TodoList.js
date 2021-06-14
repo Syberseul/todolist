@@ -45,17 +45,19 @@ class TodoList extends React.Component {
   }
 
   // Always put ajax request in componentDidMount to fetch data from outside
-  // in terminal, under the file root, type npm add axios
+  // in terminal, under the file root, type npm install axios
   // axios is a way to send ajax request
   componentDidMount() {
-    // axios
-    //   .get("/api/todolist")
-    //   .then(() => {
-    //     alert("success");
-    //   })
-    //   .catch(() => {
-    //     alert("error");
-    //   });
+    axios
+      .get("/api/todoList")
+      .then((res) => {
+        this.setState(() => ({
+          list: [...res.data],
+        }));
+      })
+      .catch(() => {
+        alert("error");
+      });
   }
 
   getTodoItem() {
