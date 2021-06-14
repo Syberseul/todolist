@@ -7,11 +7,25 @@ class TodoItem extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
+
+  // check if the new props is different to current props, then component should update
+  // what if only data in parent component changes, then child component should NOT update
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.item !== this.props.item) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
-    const { item, test } = this.props;
+    console.log("child render");
+    const { item } = this.props;
+    // const { item, test } = this.props;
     return (
       <div onClick={this.handleClick}>
-        {test} - {item}
+        {/* {test} - {item} */}
+        {item}
       </div>
     );
   }
@@ -25,15 +39,15 @@ class TodoItem extends React.Component {
 // this is the way to check props data type is what we desired
 // .isRequired is the way to force this data must be available / passed from parent
 TodoItem.propTypes = {
-  test: PropTypes.string.isRequired,
+  //   test: PropTypes.string.isRequired,
   item: PropTypes.string.isRequired,
   handleItemDelete: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
 };
 
-TodoItem.defaultProps = {
-  test: "hello world",
-};
+// TodoItem.defaultProps = {
+//   test: "hello world",
+// };
 
 export default TodoItem;
 

@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import TodoItem from "./TodoItem";
 
 import "./style.css";
+import axios from "axios";
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -26,12 +27,35 @@ class TodoList extends React.Component {
             className="input"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
+            // ref={(input) => {
+            //   this.input = input;
+            // }}
           />
           <button onClick={this.handleButtonClick}>Submit</button>
         </div>
-        <ul>{this.getTodoItem()}</ul>
+        <ul
+        // ref={(ul) => {
+        //   this.ul = ul;
+        // }}
+        >
+          {this.getTodoItem()}
+        </ul>
       </Fragment>
     );
+  }
+
+  // Always put ajax request in componentDidMount to fetch data from outside
+  // in terminal, under the file root, type npm add axios
+  // axios is a way to send ajax request
+  componentDidMount() {
+    // axios
+    //   .get("/api/todolist")
+    //   .then(() => {
+    //     alert("success");
+    //   })
+    //   .catch(() => {
+    //     alert("error");
+    //   });
   }
 
   getTodoItem() {
@@ -40,28 +64,34 @@ class TodoList extends React.Component {
         <TodoItem
           item={item}
           index={index}
-          key={index}
+          key={item}
           handleItemDelete={this.handleItemDelete}
         />
       );
     });
   }
 
-  handleInputChange(event) {
-    const value = event.target.value;
+  handleInputChange(e) {
+    const value = e.target.value;
     this.setState(() => ({
       inputValue: value,
     }));
-    // this.setState({ inputValue: event.target.value });
   }
 
   handleButtonClick() {
-    this.setState((prevState) => ({
-      //prevState is the parameter that will automatically receive when call setState
-      // prevState = this.state
-      inputValue: "",
-      list: [...prevState.list, prevState.inputValue],
-    }));
+    this.setState(
+      (prevState) => ({
+        //prevState is the parameter that will automatically receive when call setState
+        // prevState = this.state
+        inputValue: "",
+        list: [...prevState.list, prevState.inputValue],
+      })
+      // }),
+      // // call-back function will accecute after the setState async function finish
+      // () => {
+      //   console.log(this.ul.querySelectorAll("div").length);
+      // }
+    );
     // this.setState({
     //   inputValue: "",
     //   list: [...this.state.list, this.state.inputValue],
